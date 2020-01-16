@@ -13,9 +13,8 @@ object CheeseBurst{
 }
 
 object Just{
-    var finalPizza: Pizza = FarmHouse()
     infix fun farmHouse(pizza: Pizza): Pizza {
-        return finalPizza
+        return FarmHouse()
     }
 }
 
@@ -24,11 +23,8 @@ class PizzaBuilder{
 }
 
 
-fun pizza(block: PizzaBuilder.() -> Pizza) : Pizza{
-    val pizza = PizzaBuilder()
-    val topping = block(pizza)
-    pizza.base = topping
-    return pizza.base
+fun pizza(block: () -> Pizza) : Pizza{
+    return block()
 }
 
 infix fun PizzaBuilder.with(topping: String): Pizza {
