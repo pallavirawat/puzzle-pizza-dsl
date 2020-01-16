@@ -14,6 +14,13 @@ object CheeseBurst{
     }
 }
 
+object Just{
+    var finalPizza: Pizza = FarmHouse()
+    infix fun farmHouse(pizza: Pizza): Pizza {
+        return finalPizza
+    }
+}
+
 var pizzaOnWhichToppingsWouldBePut: Pizza = FarmHouse()
 
 fun pizza(block: (Pizza) -> Unit) : Pizza{
@@ -21,7 +28,6 @@ fun pizza(block: (Pizza) -> Unit) : Pizza{
     block(pizza)
     return pizzaOnWhichToppingsWouldBePut
 }
-
 
 infix fun Pizza.with(topping: String) {
     pizzaOnWhichToppingsWouldBePut = Topping(this, topping)
@@ -35,13 +41,22 @@ fun main() {
 
     println(pizza.description())
     */
+    val pizza: Pizza = FarmHouse()
 
-    val pizza = CheeseBurst farmHouse pizza {
+    //Part 1
+    val bakedPizza = CheeseBurst farmHouse pizza {
         pizzaOnWhichToppingsWouldBePut with "Golden Corn"
         pizzaOnWhichToppingsWouldBePut with "Chicken"
     }
+    println(bakedPizza.description())
 
-    println(pizza.description())
+    //Part 2
+    val simplyBakedPizza = CheeseBurst farmHouse pizza
+    println(simplyBakedPizza.description())
+
+    //Part 3
+    val plainPizza = Just farmHouse pizza
+    println(plainPizza.description())
 
 }
 
