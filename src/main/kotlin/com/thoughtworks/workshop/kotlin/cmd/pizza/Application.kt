@@ -1,18 +1,25 @@
 package com.thoughtworks.workshop.kotlin.cmd.pizza
 
+import com.thoughtworks.workshop.kotlin.pizza.Dough
 import com.thoughtworks.workshop.kotlin.pizza.FarmHouse
 import com.thoughtworks.workshop.kotlin.pizza.Pizza
-import com.thoughtworks.workshop.kotlin.pizza.Topping
 import com.thoughtworks.workshop.kotlin.pizza.description
 
+var finalPizza: Pizza = FarmHouse()
+
 object CheeseBursts{
-    var pizza = FarmHouse()
-    infix fun farmHouse(pizza: Pizza): Pizza{
-        return pizza
+    var fpizza: Pizza = FarmHouse()
+    infix fun farmHouse(pizza: Pizza): Pizza {
+        fpizza = Dough(pizza, "Cheese burst", 20.00)
+        return fpizza
     }
 }
 
-var finalPizza: Pizza = FarmHouse()
+fun pizza(block: (Pizza) -> Unit) : Pizza{
+    val pizza = FarmHouse()
+    block(pizza)
+    return pizza
+}
 
 fun main() {
     /*
@@ -24,22 +31,18 @@ fun main() {
     */
 
     val topped: Pizza = FarmHouse()
-//    val pizza: Pizza = pizza {
-//        topped withh "Golden corn"
-//        topped withh "Pineapple"
-//    }
-//    println(pizza.description())
 
-    CheeseBursts farmHouse pizza {
-        topped withh "Golden Corn"
-
+    val pizza = CheeseBursts farmHouse pizza {
     }
+
+    println(pizza.description())
+
 }
 
-infix fun Pizza.withh(topping: String){
-    finalPizza = Topping(finalPizza, topping)
-}
-fun pizza(block: Pizza.() -> Unit): Pizza {
-    block(finalPizza)
-    return finalPizza
-}
+//infix fun Pizza.withh(topping: String){
+//    finalPizza = Topping(finalPizza, topping)
+//}
+//fun pizza(block: Pizza.() -> Unit): Pizza {
+//    block(finalPizza)
+//    return finalPizza
+//}
