@@ -7,10 +7,8 @@ import com.thoughtworks.workshop.kotlin.pizza.Topping
 import com.thoughtworks.workshop.kotlin.pizza.description
 
 object CheeseBurst{
-    var finalPizza: Pizza = FarmHouse()
-    infix fun farmHouse(pizza: Pizza): Pizza {
-        finalPizza = Dough(pizza, "Cheese burst", 20.00)
-        return finalPizza
+    infix fun farmHouse(toppedPizza: Pizza): Pizza {
+        return Dough(toppedPizza, "Cheese burst", 20.00)
     }
 }
 
@@ -21,16 +19,21 @@ object Just{
     }
 }
 
-var pizzaOnWhichToppingsWouldBePut: Pizza = FarmHouse()
-
-fun pizza(block: (Pizza) -> Unit) : Pizza{
-    val pizza = FarmHouse()
-    block(pizza)
-    return pizzaOnWhichToppingsWouldBePut
+class PizzaBuilder{
+    var base: Pizza = FarmHouse()
 }
 
-infix fun Pizza.with(topping: String) {
-    pizzaOnWhichToppingsWouldBePut = Topping(this, topping)
+
+fun pizza(block: PizzaBuilder.() -> Pizza) : Pizza{
+    val pizza = PizzaBuilder()
+    val topping = block(pizza)
+    pizza.base = topping
+    return pizza.base
+}
+
+infix fun PizzaBuilder.with(topping: String): Pizza {
+    base = Topping(base, topping)
+    return base
 }
 
 fun main() {
@@ -42,11 +45,12 @@ fun main() {
     println(pizza.description())
     */
     val pizza: Pizza = FarmHouse()
+    val topped = PizzaBuilder()
 
     //Part 1
     val bakedPizza = CheeseBurst farmHouse pizza {
-        pizzaOnWhichToppingsWouldBePut with "Golden Corn"
-        pizzaOnWhichToppingsWouldBePut with "Chicken"
+        topped with "Golden Corn"
+        topped with "Chicken"
     }
     println(bakedPizza.description())
 
