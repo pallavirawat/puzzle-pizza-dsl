@@ -19,18 +19,24 @@ object Just{
 }
 
 class PizzaBuilder{
-    var base: Pizza = FarmHouse()
+    private var base: Pizza = FarmHouse()
+    infix fun Topped.with(topping: String) {
+        base = Topping(base, topping)
+    }
+
+    fun build(): Pizza {
+        return base
+    }
 }
 
 
-fun pizza(block: () -> Pizza) : Pizza{
-    return block()
+fun pizza(block: PizzaBuilder.() -> Unit) : Pizza{
+    val pizzaBuilder = PizzaBuilder()
+    pizzaBuilder.block()
+    return pizzaBuilder.build()
 }
 
-infix fun PizzaBuilder.with(topping: String): Pizza {
-    base = Topping(base, topping)
-    return base
-}
+object Topped
 
 fun main() {
     /*
@@ -41,12 +47,11 @@ fun main() {
     println(pizza.description())
     */
     val pizza: Pizza = FarmHouse()
-    val topped = PizzaBuilder()
 
     //Part 1
     val bakedPizza = CheeseBurst farmHouse pizza {
-        topped with "Golden Corn"
-        topped with "Chicken"
+        Topped with "Golden Corn"
+        Topped with "Chicken"
     }
     println(bakedPizza.description())
 
