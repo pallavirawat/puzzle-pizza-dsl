@@ -8,7 +8,7 @@ import com.thoughtworks.workshop.kotlin.pizza.description
 
 object CheeseBurst{
     infix fun farmHouse(toppedPizza: Pizza): Pizza {
-        return Dough(toppedPizza, "Cheese burst", 20.00)
+        return Dough.cheeseBurst(toppedPizza)
     }
 }
 
