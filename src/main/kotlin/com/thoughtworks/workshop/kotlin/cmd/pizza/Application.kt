@@ -20,6 +20,7 @@ object Just{
 
 class PizzaBuilder{
     private var base: Pizza = FarmHouse()
+
     infix fun Topped.with(topping: String) {
         base = Topping(base, topping)
     }
@@ -30,13 +31,15 @@ class PizzaBuilder{
 }
 
 
-fun pizza(block: PizzaBuilder.() -> Unit) : Pizza{
-    val pizzaBuilder = PizzaBuilder()
-    pizzaBuilder.block()
-    return pizzaBuilder.build()
-}
+fun pizza(block: PizzaBuilder.() -> Unit) : Pizza = PizzaBuilder().apply(block).build()
 
 object Topped
+
+
+
+
+
+
 
 fun main() {
     /*
