@@ -28,18 +28,16 @@ class PizzaBuilder{
     fun build(): Pizza {
         return base
     }
+
+
 }
 
-
+//function type with receiver.
+//This means that we need to pass an instance of type PizzaBuilder (a receiver) to the function,
+//and we can call members of that instance inside the function.
 fun pizza(block: PizzaBuilder.() -> Unit) : Pizza = PizzaBuilder().apply(block).build()
 
 object Topped
-
-
-
-
-
-
 
 fun main() {
     /*
@@ -56,6 +54,7 @@ fun main() {
         Topped with "Golden Corn"
         Topped with "Chicken"
     }
+
     println(bakedPizza.description())
 
     //Part 2
